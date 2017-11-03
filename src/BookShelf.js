@@ -2,11 +2,21 @@ import React, { Component } from 'react'
 import sortBy from 'sort-by'
 
 class BookShelf extends Component {
+
   render() {
-    const {currentlyReading, wantToRead, read} = this.props
-    currentlyReading.sort(sortBy('title'))
-    wantToRead.sort(sortBy('title'))
-    read.sort(sortBy('title'))
+    const {books, onUpdateShelf} = this.props
+
+    if (books) {
+      var currentlyReading = books.filter((book) => book.shelf === 'currentlyReading')
+      currentlyReading.sort(sortBy('title'))
+
+      var wantToRead =  books.filter((book) => book.shelf === 'wantToRead')
+      wantToRead.sort(sortBy('title'))
+
+      var read = books.filter((book) => book.shelf === 'read')
+      read.sort(sortBy('title'))
+    }
+
     return (
       <div className="bookshelf">
         <h2 className="bookshelf-title">Currently Reading</h2>
@@ -18,7 +28,9 @@ class BookShelf extends Component {
                  <div className="book-top">
                    <div className="book-cover" style={{ width: 128, height: 193, backgroundImage:`url(${book.imageLinks.smallThumbnail})` }}></div>
                    <div className="book-shelf-changer">
-                     <select>
+                     <select value={book.shelf} name={book.id} onChange={(event) => {
+                       onUpdateShelf(book, event.target.value)
+                     }}>
                        <option value="none" disabled>Move to...</option>
                        <option value="currentlyReading">Currently Reading</option>
                        <option value="wantToRead">Want to Read</option>
@@ -43,7 +55,9 @@ class BookShelf extends Component {
                  <div className="book-top">
                    <div className="book-cover" style={{ width: 128, height: 193, backgroundImage:`url(${book.imageLinks.smallThumbnail})` }}></div>
                    <div className="book-shelf-changer">
-                     <select>
+                   <select value={book.shelf} name={book.id} onChange={(event) => {
+                     onUpdateShelf(book, event.target.value)
+                   }}>
                        <option value="none" disabled>Move to...</option>
                        <option value="currentlyReading">Currently Reading</option>
                        <option value="wantToRead">Want to Read</option>
@@ -68,7 +82,9 @@ class BookShelf extends Component {
                  <div className="book-top">
                    <div className="book-cover" style={{ width: 128, height: 193, backgroundImage:`url(${book.imageLinks.smallThumbnail})` }}></div>
                    <div className="book-shelf-changer">
-                     <select>
+                   <select value={book.shelf} name={book.id} onChange={(event) => {
+                     onUpdateShelf(book, event.target.value)
+                   }}>
                        <option value="none" disabled>Move to...</option>
                        <option value="currentlyReading">Currently Reading</option>
                        <option value="wantToRead">Want to Read</option>

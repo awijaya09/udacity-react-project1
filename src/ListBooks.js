@@ -5,20 +5,26 @@ import BookShelf from './BookShelf'
 
 class ListBooks extends Component {
   state = {
-    currentlyReading: [],
-    wantToRead:[],
-    read:[]
+    books:[]
   }
 
-  componentDidMount() {
+  getAllBooks() {
     BooksAPI.getAll().then(books => {
       console.log(books)
       this.setState({
-        currentlyReading: books.filter((book) => book.shelf === 'currentlyReading'),
-        wantToRead: books.filter((book) => book.shelf === 'wantToRead'),
-        read: books.filter((book) => book.shelf === 'read')
+        books: books,
       })
     })
+  }
+
+  updateBookShelf = (book, shelf) => {
+    BooksAPI.update(book, shelf).then(() =>
+      this.getAllBooks()
+    )
+  }
+
+  componentDidMount() {
+    this.getAllBooks()
   }
 
   render() {
@@ -30,9 +36,9 @@ class ListBooks extends Component {
           <div className="list-books-content">
             <div>
               <BookShelf
-                currentlyReading={this.state.currentlyReading}
-                wantToRead={this.state.wantToRead}
-                read={this.state.read}/>
+                books={this.state.books}
+                onUpdateShelf={this.updateBookShelf}
+              />
             </div>
           </div>
           <div className="open-search">

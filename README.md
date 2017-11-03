@@ -1,14 +1,14 @@
 # My Read Project for Udacity React Nanodegree
 This project uses the starter code from Udacity.
 
-## TL;DR
+## How To Get Started
 
 To get started developing right away:
 
 * install all project dependencies with `npm install`
 * start the development server with `npm start`
 
-## Package used
+## Package Used
 1. Sort By - Used to sort array
 2. React Router Dom - Used to set routing in the project
 
