@@ -12,6 +12,9 @@ To get started developing right away:
 1. Sort By - Used to sort array
 2. React Router Dom - Used to set routing in the project
 
+## How to Search for New Books
+Upon searching a new term, press "Enter" to proceed with the query search
+
 
 ## Backend Server
 Backend methods for the list of Books are provided in the starter package.
