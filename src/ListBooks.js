@@ -4,30 +4,9 @@ import * as BooksAPI from './BooksAPI'
 import BookShelf from './BookShelf'
 
 class ListBooks extends Component {
-  state = {
-    books:[]
-  }
-
-  getAllBooks() {
-    BooksAPI.getAll().then(books => {
-      console.log(books)
-      this.setState({
-        books: books,
-      })
-    })
-  }
-
-  updateBookShelf = (book, shelf) => {
-    BooksAPI.update(book, shelf).then(() =>
-      this.getAllBooks()
-    )
-  }
-
-  componentDidMount() {
-    this.getAllBooks()
-  }
 
   render() {
+    const { books, updateBookShelf } = this.props
     return (
         <div className="list-books">
           <div className="list-books-title">
@@ -36,8 +15,8 @@ class ListBooks extends Component {
           <div className="list-books-content">
             <div>
               <BookShelf
-                books={this.state.books}
-                onUpdateShelf={this.updateBookShelf}
+                books={books}
+                onUpdateShelf={updateBookShelf}
               />
             </div>
           </div>
