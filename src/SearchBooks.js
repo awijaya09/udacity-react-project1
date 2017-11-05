@@ -6,14 +6,14 @@ import Shelf from './Shelf'
 class SearchBooks extends Component {
   state = {
     query: '',
-    books:[]
+    searchedBooks:[]
   }
 
   updateQuery = (query) => {
-      this.setState({query: query.trim()})
+      this.setState(query: query)
   }
 
-  findSavedBooks(books) {
+  findSavedBooks(books, term) {
     const savedBooks = books.map(book => {
       book.shelf = "none"
       this.props.booksSaved.forEach(bookSaved => {
@@ -24,30 +24,38 @@ class SearchBooks extends Component {
       return book
     })
     this.setState({
-      books: books,
+      searchedBooks: savedBooks,
+      query: term
     })
   }
 
   searchQuery = (event) => {
-    if (event.key === 'Enter') {
-      const term = event.target.value
-      BooksAPI.search(term, 20).then((books) => {
-        if (books.length > 0) {
-          this.findSavedBooks(books)
+      if (event.key === 'Enter') {
+        const term = event.target.value
+        if(term !== ""){
+          BooksAPI.search(term, 20).then((books) => {
+            if (books.length > 0) {
+              this.findSavedBooks(books, term)
+            } else {
+              this.setState({
+                searchedBooks:[],
+                query:term
+              })
+            }
+          })
         } else {
           this.setState({
-            books:[],
+            searchedBooks:[],
             query:term
           })
         }
-      })
-    }
+      }
   }
 
   render() {
 
     const { updateBookShelf } = this.props
-    const { query, books} = this.state
+    const { query, searchedBooks} = this.state
       return (
         <div className="search-books">
           <div className="search-books-bar">
@@ -62,10 +70,10 @@ class SearchBooks extends Component {
             </div>
           </div>
           <div className="search-books-results">
-           {books.length > 0 &&
+           {searchedBooks.length > 0 &&
               <Shelf
                 title='Search Result'
-                books={ books }
+                books={ searchedBooks }
                 onUpdateShelf={updateBookShelf}
               />
             }
